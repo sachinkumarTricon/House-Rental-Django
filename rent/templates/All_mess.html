@@ -1,0 +1,712 @@
+{% load static %}
+{% static "images" as baseURL %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Room&Mess.com</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+
+ <!-- Vendor CSS Files -->
+  <link href="{% static 'assets11/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets11/vendor/ionicons/css/ionicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets11/vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets11/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets11/vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets11/css/style.css' %}" rel="stylesheet">
+  <!-- =======================================================
+  * Template Name: EstateAgency - v2.2.1
+  * Template URL: https://bootstrapmade.com/real-estate-agency-bootstrap-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/main_styles.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/responsive.css' %}">
+</head>
+
+<body>
+
+  <!-- ======= Property Search Section ======= -->
+ <div class="box-collapse">
+    <div class="title-box-d">
+      <h3 class="title-d">Search Mess Canteen</h3>
+    </div>
+    <span class="close-box-collapse right-boxed ion-ios-close"></span>
+    <div class="box-collapse-wrap form">
+      <form class="form-a"  id="indexForm" data-courses-url="/rent/load-dists"  enctype="multipart/form-data">
+        <div class="row">
+          <div class="col-md-12 mb-2">
+            <div class="form-group">
+              <label for="Type">Keyword</label>
+              <input type="text" class="form-control form-control-lg form-control-a" placeholder="Keyword">
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group">
+              <label for="Type">Type</label>
+              <select class="form-control form-control-lg form-control-a" id="Type">
+                <option>All Type</option>
+                <option>Veg</option>
+                <option>Non veg</option>
+                <option>Both Veg & Non veg</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group">
+               <label for="city">State</label>
+               <select name="state" id="state" class="form-control form-control-lg form-control-a" required="required" >
+                 <option>--State--</option>
+                 {% for i in state %}
+                 <option value="{{i.id}}">{{i.name}}</option>
+                 {% endfor %}
+               </select>
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group">
+              <label for="city">District</label>
+              <select name="district" id="district" class="form-control form-control-lg form-control-a" required="required" data-courses1-url="/rent/load-city">
+                <option>--District--</option>
+
+              </select>
+
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group">
+              <label for="city">City</label>
+              <select name="city" id="city" class="form-control form-control-lg form-control-a" required="required">
+                <option>--City--</option>
+
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group">
+              <label for="bathrooms">Bathrooms</label>
+              <select class="form-control form-control-lg form-control-a" id="bathrooms">
+                <option>Any</option>
+                <option>01</option>
+                <option>02</option>
+                <option>03</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group">
+              <label for="price">Min Price</label>
+              <select class="form-control form-control-lg form-control-a" id="price">
+                <option>Unlimite</option>
+                <option>$50,000</option>
+                <option>$100,000</option>
+                <option>$150,000</option>
+                <option>$200,000</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <button type="submit" class="btn btn-b"> Search </button>
+          </div>
+        </div>
+      </form>
+    </div>
+ </div><!-- End Property Search Section -->>
+
+
+
+  <!-- ======= Header/Navbar ======= -->
+  <nav class="navbar navbar-default navbar-trans navbar-expand-lg fixed-top">
+    <div class="container">
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <a class="navbar-brand text-brand" href="index.html">Ghar<span class="color-b">Khojo</span></a>
+      <button type="button" class="btn btn-link nav-search navbar-toggle-box-collapse d-md-none" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-expanded="false">
+        <span class="fa fa-search" aria-hidden="true"></span>
+      </button>
+      <div class="navbar-collapse collapse justify-content-center" id="navbarDefault">
+        <ul class="navbar-nav">
+           <li class="nav-item">
+            <a class="nav-link active" href="/rent/home">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Pages
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="property-single.html">Property Single</a>
+              <a class="dropdown-item" href="blog-single.html">Blog Single</a>
+              <a class="dropdown-item" href="agents-grid.html">Agents Grid</a>
+              <a class="dropdown-item" href="agent-single.html">Agent Single</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">Contact</a>
+          </li>
+          {% if user.is_superuser  %}
+            <li class="nav-item active">
+               <a class="nav-link" href="/Rental/validationpage">ValidationPage</a>
+            </li>
+          {% endif %}
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/rent/mypost">My Posts</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/rent/UploadHouseDetail">Give Flat/Room On Rent</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/rent/profile/edit/{{user.profile.id}}">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/accounts/logout">Logout</a>
+          </li>
+          {% else %}
+                    <li class="nav-item">
+            <a class="nav-link" href="/accounts/register">Register</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/accounts/login">Login</a>
+          </li>
+          {% endif %}
+
+        </ul>
+      </div>
+      <button type="button" class="btn btn-b-n navbar-toggle-box-collapse d-none d-md-block" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-expanded="false">
+        <span class="fa fa-search" aria-hidden="true">Search </span>
+      </button>
+    </div>
+  </nav><!-- End Header/Navbar -->
+<!-- End Header/Navbar -->
+  <div class="box-collapse">
+    <div class="title-box-d">
+      <h3 class="title-d">Search Mess Canteen</h3>
+    </div>
+    <span class="close-box-collapse right-boxed ion-ios-close"></span>
+    <div class="box-collapse-wrap form">
+      <form class="form-a"  id="indexForm" data-courses-url="/rent/load-dists"  enctype="multipart/form-data">
+        <div class="row">
+          <div class="col-md-12 mb-2">
+            <div class="form-group">
+              <label for="Type">Keyword</label>
+              <input type="text" class="form-control form-control-lg form-control-a" placeholder="Keyword">
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group">
+              <label for="Type">Type</label>
+              <select class="form-control form-control-lg form-control-a" id="Type">
+                <option>All Type</option>
+                <option>Veg</option>
+                <option>Non veg</option>
+                <option>Both Veg & Non veg</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group">
+               <label for="city">State</label>
+               <select name="state" id="state" class="form-control form-control-lg form-control-a" required="required" >
+                 <option>--State--</option>
+                 {% for i in state %}
+                 <option value="{{i.id}}">{{i.name}}</option>
+                 {% endfor %}
+               </select>
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group">
+              <label for="city">District</label>
+              <select name="district" id="district" class="form-control form-control-lg form-control-a" required="required" data-courses1-url="/rent/load-city">
+                <option>--District--</option>
+
+              </select>
+
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group">
+              <label for="city">City</label>
+              <select name="city" id="city" class="form-control form-control-lg form-control-a" required="required">
+                <option>--City--</option>
+
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group">
+              <label for="bathrooms">Bathrooms</label>
+              <select class="form-control form-control-lg form-control-a" id="bathrooms">
+                <option>Any</option>
+                <option>01</option>
+                <option>02</option>
+                <option>03</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group">
+              <label for="price">Min Price</label>
+              <select class="form-control form-control-lg form-control-a" id="price">
+                <option>Unlimite</option>
+                <option>$50,000</option>
+                <option>$100,000</option>
+                <option>$150,000</option>
+                <option>$200,000</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <button type="submit" class="btn btn-b">Search </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div><!-- End Property Search Section -->>
+
+  <main id="main">
+
+    <!-- ======= Intro Single ======= -->
+    <section class="intro-single">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 col-lg-8">
+            <div class="title-single-box">
+              <h1 class="title-single">All Available Mess Hotels And Canteen </h1>
+              <span class="color-text-a"></span>
+            </div>
+          </div>
+          <div class="col-md-12 col-lg-4">
+            <nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
+             <button type="button"  style="float:right" class="btn btn-b-n navbar-toggle-box-collapse d-none d-md-block" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-expanded="false">
+                <span class="fa fa-search" aria-hidden="true"> Search Mess In your Area</span>
+              </button>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </section><!-- End Intro Single-->
+
+    <!-- =======  Blog Grid ======= -->
+    <section class="news-grid grid">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card-box-b card-shadow news-box">
+              <div class="img-box-b">
+                <img src="{% static 'assets11/img/post-7.jpg' %}" alt="" class="img-b img-fluid">
+              </div>
+              <div class="card-overlay">
+                <div class="card-header-b">
+                  <div class="card-category-b">
+                    <a href="#" class="category-b">Food</a>
+                  </div>
+                  <div class="card-title-b">
+                    <h2 class="title-2">
+                      <a href="blog-single.html">Sadanand Mess
+                        </a>
+                    </h2>
+                  </div>
+                  <div class="card-date">
+                    <span class="date-b">Gridih</span>
+                  </div>
+                  <br><a href="#" class="category-b " style="color:blue">Join Now</a>
+                </div>
+              </div>
+            </div>
+          </div>
+           <div class="col-md-4">
+            <div class="card-box-b card-shadow news-box">
+              <div class="img-box-b">
+                <img src="{% static 'assets11/img/post-7.jpg' %}" alt="" class="img-b img-fluid">
+              </div>
+              <div class="card-overlay">
+                <div class="card-header-b">
+                  <div class="card-category-b">
+                    <a href="#" class="category-b">Food</a>
+                  </div>
+                  <div class="card-title-b">
+                    <h2 class="title-2">
+                      <a href="blog-single.html">Sadanand Mess
+                        </a>
+                    </h2>
+                  </div>
+                  <div class="card-date">
+                    <span class="date-b">Gridih</span>
+                  </div>
+                  <br><a href="#" class="category-b " style="color:blue">Join Now</a>
+                </div>
+              </div>
+            </div>
+          </div>
+           <div class="col-md-4">
+            <div class="card-box-b card-shadow news-box">
+              <div class="img-box-b">
+                <img src="{% static 'assets11/img/post-7.jpg' %}" alt="" class="img-b img-fluid">
+              </div>
+              <div class="card-overlay">
+                <div class="card-header-b">
+                  <div class="card-category-b">
+                    <a href="#" class="category-b">Food</a>
+                  </div>
+                  <div class="card-title-b">
+                    <h2 class="title-2">
+                      <a href="blog-single.html">Sadanand Mess
+                        </a>
+                    </h2>
+                  </div>
+                  <div class="card-date">
+                    <span class="date-b">Gridih</span>
+                  </div>
+                  <br><a href="#" class="category-b " style="color:blue">Join Now</a>
+                </div>
+              </div>
+            </div>
+          </div>
+           <div class="col-md-4">
+            <div class="card-box-b card-shadow news-box">
+              <div class="img-box-b">
+                <img src="{% static 'assets11/img/post-7.jpg' %}" alt="" class="img-b img-fluid">
+              </div>
+              <div class="card-overlay">
+                <div class="card-header-b">
+                  <div class="card-category-b">
+                    <a href="#" class="category-b">Food</a>
+                  </div>
+                  <div class="card-title-b">
+                    <h2 class="title-2">
+                      <a href="blog-single.html">Sadanand Mess
+                        </a>
+                    </h2>
+                  </div>
+                  <div class="card-date">
+                    <span class="date-b">Gridih</span>
+                  </div>
+                  <br><a href="#" class="category-b " style="color:blue">Join Now</a>
+                </div>
+              </div>
+            </div>
+          </div>
+           <div class="col-md-4">
+            <div class="card-box-b card-shadow news-box">
+              <div class="img-box-b">
+                <img src="{% static 'assets11/img/post-7.jpg' %}" alt="" class="img-b img-fluid">
+              </div>
+              <div class="card-overlay">
+                <div class="card-header-b">
+                  <div class="card-category-b">
+                    <a href="#" class="category-b">Food</a>
+                  </div>
+                  <div class="card-title-b">
+                    <h2 class="title-2">
+                      <a href="blog-single.html">Sadanand Mess
+                        </a>
+                    </h2>
+                  </div>
+                  <div class="card-date">
+                    <span class="date-b">Gridih</span>
+                  </div>
+                  <br><a href="#" class="category-b " style="color:blue">Join Now</a>
+                </div>
+              </div>
+            </div>
+          </div>
+           <div class="col-md-4">
+            <div class="card-box-b card-shadow news-box">
+              <div class="img-box-b">
+                <img src="{% static 'assets11/img/post-7.jpg' %}" alt="" class="img-b img-fluid">
+              </div>
+              <div class="card-overlay">
+                <div class="card-header-b">
+                  <div class="card-category-b">
+                    <a href="#" class="category-b">Food</a>
+                  </div>
+                  <div class="card-title-b">
+                    <h2 class="title-2">
+                      <a href="blog-single.html">Sadanand Mess
+                        </a>
+                    </h2>
+                  </div>
+                  <div class="card-date">
+                    <span class="date-b">Gridih</span>
+                  </div>
+                  <br><a href="#" class="category-b " style="color:blue">Join Now</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <nav class="pagination-a">
+              <ul class="pagination justify-content-end">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1">
+                    <span class="ion-ios-arrow-back"></span>
+                  </a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item active">
+                  <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">3</a>
+                </li>
+                <li class="page-item next">
+                  <a class="page-link" href="#">
+                    <span class="ion-ios-arrow-forward"></span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </section><!-- End Blog Grid-->
+
+  </main><!-- End #main -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    $("#state").change(function () {
+      var url = $("#indexForm").attr("data-courses-url");  // get the url of the `load_courses` view
+      var programmingId = $(this).val();  // get the selected programming ID from the HTML input
+
+
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/load-courses/)
+        data: {
+          'state': programmingId       // add the programming id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_courses` view function
+          $("#district").html(data);  // replace the contents of the course input with the data that came from the server
+        }
+      });
+
+    });
+    $("#district").change(function () {
+    var url = $("#district").attr("data-courses1-url");  // get the url of the `load_courses` view
+    var stateId = $(this).val();  // get the selected programming ID from the HTML input
+
+    $.ajax({                       // initialize an AJAX request
+      url: url,                    // set the url of the request (= localhost:8000/load-courses/)
+      data: {
+        'dist': stateId       // add the programming id to the GET parameters
+      },
+      success: function (data) {   // `data` is the return of the `load_courses` view function
+<!--          document.write("success entered into district ")-->
+        $("#city").html(data);  // replace the contents of the course input with the data that came from the server
+      }
+    });
+
+    });
+
+
+  </script>
+<!-- ======= Footer ======= -->
+  <section class="section-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 col-md-4">
+          <div class="widget-a">
+            <div class="w-header-a">
+              <h3 class="w-title-a text-brand">GharKhojo</h3>
+            </div>
+            <div class="w-body-a">
+              <p class="w-text-a color-text-a">
+               GharKhojo is a platform where you can search for Rooms, Flat, Apartment available on Rent for Bachelor or  Family
+              </p>
+            </div>
+            <div class="w-footer-a">
+              <ul class="list-unstyled">
+                <li class="color-a">
+                  <span class="color-text-a">Phone .</span> +91 8340 312 640
+                </li>
+                <li class="color-a">
+                  <span class="color-text-a">Email .</span> ghar@khojo.com
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-4 section-md-t3">
+          <div class="widget-a">
+            <div class="w-header-a">
+              <h3 class="w-title-a text-brand">The Company</h3>
+            </div>
+            <div class="w-body-a">
+              <div class="w-body-a">
+                <ul class="list-unstyled">
+                  <li class="item-list-a">
+                    <i class="fa fa-angle-right"></i> <a href="#">Site Map</a>
+                  </li>
+                  <li class="item-list-a">
+                    <i class="fa fa-angle-right"></i> <a href="#">Legal</a>
+                  </li>
+                  <li class="item-list-a">
+                    <i class="fa fa-angle-right"></i> <a href="#">Agent Admin</a>
+                  </li>
+                  <li class="item-list-a">
+                    <i class="fa fa-angle-right"></i> <a href="#">Careers</a>
+                  </li>
+                  <li class="item-list-a">
+                    <i class="fa fa-angle-right"></i> <a href="#">Affiliate</a>
+                  </li>
+                  <li class="item-list-a">
+                    <i class="fa fa-angle-right"></i> <a href="#">Privacy Policy</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-4 section-md-t3">
+          <div class="widget-a">
+            <div class="w-header-a">
+              <h3 class="w-title-a text-brand">International sites</h3>
+            </div>
+            <div class="w-body-a">
+              <ul class="list-unstyled">
+                <li class="item-list-a">
+                  <i class="fa fa-angle-right"></i> <a href="#">Venezuela</a>
+                </li>
+                <li class="item-list-a">
+                  <i class="fa fa-angle-right"></i> <a href="#">China</a>
+                </li>
+                <li class="item-list-a">
+                  <i class="fa fa-angle-right"></i> <a href="#">Hong Kong</a>
+                </li>
+                <li class="item-list-a">
+                  <i class="fa fa-angle-right"></i> <a href="#">Argentina</a>
+                </li>
+                <li class="item-list-a">
+                  <i class="fa fa-angle-right"></i> <a href="#">Singapore</a>
+                </li>
+                <li class="item-list-a">
+                  <i class="fa fa-angle-right"></i> <a href="#">Philippines</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <nav class="nav-footer">
+            <ul class="list-inline">
+              <li class="list-inline-item">
+                <a href="#">Home</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">About</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">Property</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">Blog</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">Contact</a>
+              </li>
+            </ul>
+          </nav>
+          <div class="socials-a">
+            <ul class="list-inline">
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="fa fa-facebook" aria-hidden="true"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="fa fa-instagram" aria-hidden="true"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://www.youtube.com/channel/UC1KgTWiC9sHMtbIfv5rYFfA?view_as=subscriber">
+                  <i class="fa fa-youtube" aria-hidden="true"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="">
+                  <i class="fa fa-pinterest-p" aria-hidden="true"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="fa fa-dribbble" aria-hidden="true"></i>
+                </a>
+              </li>
+
+            </ul>
+          </div>
+
+          <div class="copyright-footer">
+            <p class="copyright color-text-a">
+              &copy; Copyright
+              <span class="color-a">GharKhojo</span> All Rights Reserved.
+            </p>
+          </div>
+          <div class="credits">
+            <!--
+            All the links in the footer should remain intact.
+            You can delete the links only if you purchased the pro version.
+            Licensing information: https://bootstrapmade.com/license/
+            Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=EstateAgency
+          -->
+            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer><!-- End  Footer -->
+
+  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+  <div id="preloader"></div>
+
+<!------script ends -->
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets11/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'assets11/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets11/vendor/jquery.easing/jquery.easing.min.js' %}"></script>
+  <script src="{% static 'assets11/vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'assets11/vendor/owl.carousel/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'assets11/vendor/scrollreveal/scrollreveal.min.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets11/js/main.js' %}"></script>
+
+</body>
+
+</html>
