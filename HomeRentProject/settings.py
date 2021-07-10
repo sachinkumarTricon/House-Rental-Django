@@ -130,7 +130,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,'HomeRent/static')
+    os.path.join(BASE_DIR,'HomeRent/statics')
     ]
 STATIC_ROOT=os.path.join(BASE_DIR,'clone_static')
 MEDIA_URL= '/media/'
