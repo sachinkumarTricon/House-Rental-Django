@@ -27,11 +27,7 @@ urlpatterns = [
     path('api/', include('accounts.urls')),
     # path('accounts/', include('registration.backends.default.urls')),
     path('apii/<int:id>/', views.JsonCBV.as_view()),
-    #path('accounts/register', views.register, name='register'),
-    #path('accounts/login', views.login, name='login'),
-    #path('accounts/logout', views.logout, name='logout'),
-
-]
+    
 if settings.DEBUG:
     urlpatterns=urlpatterns + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
     urlpatterns=urlpatterns + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
