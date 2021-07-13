@@ -6,10 +6,13 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth import login,logout
 from .serializers import ChangePasswordSerializer
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import MultiPartParser,FormParser
 # Create your views here.
-from .serializers import CreateUserSerializer ,LoginSerializer,EditProfileSerializer
+from .serializers import CreateUserSerializer ,LoginSerializer,EditProfileSerializer,UserAvatarSerializer
 import json
+import requests
 from . models import User,OTP,Profile
+from rent.models import room
 import random
 from django.contrib.auth.decorators import login_required
 from knox.views import LoginView,LogoutView
@@ -253,11 +256,14 @@ class ChangePasswordView(generics.UpdateAPIView):
 
     def get_object(self, queryset=None):
         obj = self.request.user
+        print(obj)
         return obj
 
     def put(self, request, *args, **kwargs):
         self.object = self.get_object()
-        serializer = self.get_serializer(data=request.data)
+        data = json.loads(request.body)
+        print(data,"cOMING FROM CHANGE PASSW FORM")
+        serializer = self.get_serializer(data=data)
 
         if serializer.is_valid():
             # Check old password
@@ -267,7 +273,7 @@ class ChangePasswordView(generics.UpdateAPIView):
             self.object.set_password(serializer.data.get("new_password"))
             self.object.save()
             response = {
-                'status': 'success',
+                'status': True,
                 'code': status.HTTP_200_OK,
                 'message': 'Password updated successfully',
                 'data': []
@@ -278,16 +284,24 @@ class ChangePasswordView(generics.UpdateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class EditProfile(generics.UpdateAPIView):
+
+
+class EditProfile(APIView):
     permission_classes = (IsAuthenticated,)
-    def put(self, request,*args, **kwargs):
+    parser_classes = (MultiPartParser,FormParser)
+
+    def put(self, request, format=None):
+        print("Ander aaya hai mc")
         data = request.body
+
         data = json.loads(data)
-        queryset = Profile.objects.filter(id = data['id'])
+
+        # print(type(data['Profile_pic']))
+        queryset = Profile.objects.get(id =data['id'])
         serializer = EditProfileSerializer(queryset,data=data)
         serializer.is_valid(raise_exception=True)
         if serializer.is_valid():
-
+            serializer.save()
             return Response({
                 "UpdatedData":serializer.validated_data,
                 'status': True,
@@ -300,7 +314,6 @@ class EditProfile(generics.UpdateAPIView):
                 "status": False
             })
 
-
 def logoutview(request):
     logout(request)
     return redirect('/')
@@ -308,7 +321,10 @@ def logoutview(request):
 
 def ProfileView(request,pk):
     user = Profile.objects.filter(id = pk)
-    return render(request,'UserProfile.html',{'users':user})
+    context = {'data': room.objects.all().filter(user=request.user.profile).order_by("-id"),
+               'users': user
+               }
+    return render(request,'UserProfile.html',context)
 
 
 
@@ -318,3 +334,96 @@ def UpdateProfileView(request,pk):
     for i in user:
        date_of_birth = i.date_of_birth.strftime("%Y-%m-%d")
     return render(request,'UpdateProfile.html',{'users':user,'date_of_birth':date_of_birth})
+
+
+# FOR IMAGEFIELD UPLOAD CHECK
+
+class UserAvatarUpload(APIView):
+    parser_classes = [MultiPartParser, FormParser]
+
+    def put(self, request, format=None):
+        # print("Avtar se AAYA HAI ")
+        user = Profile.objects.get(id = request.data.get('id'))
+        serializer = UserAvatarSerializer( instance=user,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+
+                'status': True,
+                "msg": "Data successfully updated"
+
+            })
+        else:
+            return Response({
+                "msg": "something went wrong",
+                "status": False
+            })
+
+
+
+class goToResetPass(APIView):
+    def post(self,request, format = None):
+        data = request.body
+
+        data = json.loads(data)
+        try:
+
+            user = User.objects.filter(email = data['email'])
+        except:
+            return Response({
+                "status":False,
+                "msg": "User with this email id is not valid "
+            })
+        if user.exists():
+
+            BASE_URL = "http://127.0.0.1:8000/api/"
+            END_POINT = "password_reset/"
+            respo = requests.post(BASE_URL + END_POINT, data=data)
+            print(respo)
+            if respo.status_code == 200:
+
+                return Response({
+
+                    "status": True,
+                    'msg': 'Reset password link has been sent to your email'
+                })
+            else:
+                return Response({
+                    "status": False,
+                    "msg": "User with this email id is not valid "
+                })
+
+
+
+def ConfirmResetPass(request,token):
+    print("This cam from email link when you clicked on email link  ",token)
+
+    return render(request,'resetpassword.html',{'token':token})
+
+class ConfirmPassreset(APIView):
+
+    def post(self,request,token, format = None):
+        data = request.body
+        print("i was called from  confirm Pass Reset")
+        data = json.loads(data)
+
+        print(data['password'])
+        data['token'] =token
+        print(data,"Conform pass se aaya hu SS")
+
+        BASE_URL = "http://127.0.0.1:8000/api/"
+        END_POINT = "password_reset/confirm/{}".format(token)
+        respo = requests.post(BASE_URL + END_POINT, data=data)
+        print(respo.json())
+        if respo.status_code == 'OK':
+
+            return Response({
+
+                "status": True,
+                'msg': 'Reset password link has been sent to your email'
+            })
+        else:
+            return Response({
+                "status": False,
+                "msg": "User with this email id is not valid "
+            })
