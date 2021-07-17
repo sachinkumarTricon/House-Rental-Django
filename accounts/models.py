@@ -114,7 +114,9 @@ class Profile(models.Model):
     address = models.TextField(null=True)
     pin_no = models.IntegerField(null=True)
     phone_no = models.CharField(validators=[RegexValidator("^0?[5-9]{1}\d{9}$")],max_length=15,null=True,blank=True)
-    Profile_pic = models.ImageField(upload_to='Profilepic',null=True,blank=True)
+    Profile_pic = models.ImageField(upload_to='Profilepic',null=True,blank=True,max_length=255)
+    Premium = models.BooleanField(default=False)
+
 
     def __str__(self):
        return "%s (%s)" %(self.user,self.Fullname)
@@ -126,3 +128,25 @@ class Profile(models.Model):
         except:
             url = ' '
         return url
+
+# demo to upload image  using Put request
+
+
+
+# myproject/apps/accounts/models.py
+import os
+import sys
+from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+
+def upload_to(instance, filename):
+    now = timezone.now()
+    base, extension = os.path.splitext(filename.lower())
+    milliseconds = now.microsecond // 1000
+    return f"users/{instance.pk}/{now:%Y%m%d%H%M%S}{milliseconds}{extension}"
+
+class ImageFieldUpload(models.Model):
+    # …
+    avatar = models.ImageField(_("Avatar"), upload_to=upload_to, blank=True)
