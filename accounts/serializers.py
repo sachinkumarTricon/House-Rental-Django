@@ -63,14 +63,41 @@ class ChangePasswordSerializer(serializers.Serializer):
 class EditProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['Profile_pic','pin_no','address','Fullname','phone_no','Email','date_of_birth']
+        fields = ['pin_no','address','Fullname','phone_no','Email','date_of_birth']
         extra_kwargs = {'phone_no': {'read_only': True},'Email':{'read_only': True},}
     def update(self, instance, validated_data):
-        instance.phone_no = validated_data.get('phone',instance.phone_no)
+
+
+        instance.phone_no = validated_data.get('phone_no',instance.phone_no)
         instance.Email = validated_data.get('Email', instance.Email)
+        print(type(validated_data.get('address')),"Type of address in serializer ")
         instance.address = validated_data.get('address', instance.address)
         instance.Fullname = validated_data.get('Fullname', instance.Fullname)
-        instance.Profile_pic = validated_data.get('Profile_pic', instance.Profile_pic)
         instance.date_of_birth = validated_data.get('date_of_birth', instance.date_of_birth)
+        # instance.Profile_pic = validated_data.get('Profile_pic', instance.Profile_pic)
+
         instance.save()
         return instance
+
+
+#  Checking Purpose ImageField Upload
+
+class UserAvatarSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['Profile_pic']
+
+    # def save(self, *args, **kwargs):
+    #     if self.instance.Profile_pic:
+    #         self.instance.Profile_pic.delete()
+    #     return super().save(*args, **kwargs)
+    def update(self, instance, validated_data):
+
+        print(validated_data,"ye validated data hai avatar se ")
+
+        instance.Profile_pic = validated_data.get('Profile_pic', instance.Profile_pic)
+        instance.save()
+        print(instance)
+        return instance
+
+
