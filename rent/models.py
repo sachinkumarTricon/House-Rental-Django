@@ -34,39 +34,14 @@ class Locations(models.Model):
         return self.name
 
 
-
-# class Profile(models.Model):
-#
-#     name = models.CharField(max_length=100,null=True,blank=True)
-#     Contact_Email = models.EmailField(max_length=100,unique=True,null= True)
-#     user = models.OneToOneField(to=User,on_delete=CASCADE)
-#     address = models.TextField(null=True)
-#     city = models.CharField(max_length=100, null=False)
-#     state = models.CharField(max_length=100, null=False)
-#     pin_no = models.IntegerField(null=True)
-#     phone_no = models.CharField(validators=[RegexValidator("^0?[5-9]{1}\d{9}$")],max_length=15,null=True,blank=True)
-#     Profile_pic = models.ImageField(upload_to='Profilepic',null=True,blank=True)
-#
-#     def __str__(self):
-#        return "%s (%s)" %(self.user,self.name)
-#
-#     @property
-#     def profile_picURL(self):
-#         try:
-#             url = self.Profile_pic.url
-#         except:
-#             url = ' '
-#         return url
-#
-
 class room(models.Model):
     user = models.ForeignKey(to=Profile, on_delete=CASCADE)
     Owner_Name = models.CharField(max_length=100,null=True)
     Owner_pic = models.ImageField(upload_to='Housepic', null=True, blank=True)
     House_address  =models.TextField(null=False)
-    House_video = models.FileField(upload_to='Housevideos/%Y/%m/%d/', null=True, verbose_name="")
-    Building_img1 = models.ImageField(upload_to='Housepic', null=False, blank=False)
-    Room_img1 = models.ImageField(upload_to='Housepic', null=False, blank=False)
+    House_video = models.FileField(upload_to='Housevideos/%Y/%m/%d/', null=True,blank=True ,verbose_name="")
+    Building_img1 = models.ImageField(upload_to='Housepic', null=True, blank=True)
+    Room_img1 = models.ImageField(upload_to='Housepic', null=True, blank=True)
     Room_img2 = models.ImageField(upload_to='Housepic', null=True, blank=True)
     Room_img3 = models.ImageField(upload_to='Housepic', null=True, blank=True)
     Landmark = models.TextField(null=False)
@@ -86,6 +61,7 @@ class room(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
 
     Premium = models.BooleanField(default=False)
+    Active = models.BooleanField(default=False)
 
 
     def __str__(self):
@@ -148,6 +124,37 @@ class Gallerys(models.Model):
 
 
 class Reg_Mess_Restaurent(models.Model):
+    user = models.ForeignKey(to=Profile, on_delete=CASCADE)
+    Mess_name = models.CharField(max_length=200, null=False)
+    Mess_Owner_name = models.CharField(max_length=200,null=False)
+    Mess_description = models.TextField(null=True,blank=True)
+    Mess_address  =models.TextField(null=False)
+    Mess_Location_link = models.URLField(max_length=200, null=True, blank=True)
+    Mess_Location_map_Code = models .CharField(max_length=800, null=True, blank=True)
+    Mess_img = models.ImageField(upload_to='MessImg', null=True, blank=True)
+    Landmark = models.TextField(null=False)
+    city = models.CharField(max_length=100,null=False)
+    district = models.CharField(max_length=100, null=False)
+    location = models.CharField(max_length=100, null=False, default="Not Mention")
+    state = models.CharField(max_length=100,null=False)
+    pin_no = models.IntegerField(null=False)
+    phone_no = models.CharField(validators=[RegexValidator("^0?[5-9]{1}\d{9}$")], max_length=12)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.Mess_name
+
+    @property
+    def Mess_imgURL(self):
+        try:
+            url = self.Mess_img.url
+        except:
+            url = ' '
+        return url
+
+
+
+class Temp_Reg_Mess_Restaurent(models.Model):
     user = models.ForeignKey(to=Profile, on_delete=CASCADE)
     Mess_name = models.CharField(max_length=200, null=False)
     Mess_Owner_name = models.CharField(max_length=200,null=False)
