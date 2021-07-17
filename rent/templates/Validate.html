@@ -276,6 +276,43 @@ td, th {
   {% endfor %}
 </table>
 </div>
+<br><br><br>
+<h2 class="text-center">Validate Mess Hotels Restaurants </h2>
+<br><br><br>
+<div class="container">
+<table>
+  <tr>
+    <th>Mess Image</th>
+    <th>Mess Name</th>
+    <th>Mess Address </th>
+    <th>Landmark </th>
+    <th>city </th>
+    <th>state </th>
+    <th>Pin Number </th>
+    <th>Contact Number </th>
+
+
+  </tr>
+  {% for i in ForvalidateMess %}
+  <tr>
+    <td><img src="{{i.Mess_img.url}}" alt="New York" width="200" height="150"></td>
+    <td>{{i.Mess_name}}</td>
+    <td>{{i.Mess_address}}</td>
+    <td>{{i.Landmark}}</td>
+    <td>{{i.city}}</td>
+    <td>{{i.state}}</td>
+    <td>{{i.pin_no}}</td>
+    <td>{{i.phone_no}}</td>
+    <td>
+      <a href="/rent/ValidateMess/{{i.id}}"><button>Validate</button></a><br><br>
+      <a href="/rent/deleteMessPostvalidation/{{i.id}}"><button>Delete Post</button></a>
+    </td>
+
+  </tr>
+  {% endfor %}
+</table>
+</div>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
