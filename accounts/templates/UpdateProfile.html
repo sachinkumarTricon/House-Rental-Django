@@ -144,12 +144,12 @@ body {
 
 <script type="text/javascript">
 
-    // register API call
+    // Profile Update  API call
 
     var updateform = document.getElementById('updateProfileform')
     updateform.addEventListener('submit', function(e){
         e.preventDefault()
-        console.log('Clicked on register ...')
+        console.log('Clicked on save Changes ...')
         updateProfile()
     //    document.getElementById('form-button').classList.add("hidden");
 
@@ -165,19 +165,15 @@ body {
             'date_of_birth': null,
             'phone': null,
             'address': null,
-            'Profile_pic':null
+
         }
 
 
-            userFormData.Fullname = updateform.full_name.value
-            userFormData.phone = updateform.phne.value
-            userFormData.Email = updateform.email.value
-            userFormData.date_of_birth = updateform.dob.value
-            userFormData.address = updateform.address.value
-            userFormData.Profile_pic = updateform.profile_pic.value
-
-
-
+        userFormData.Fullname = updateform.full_name.value
+        userFormData.phone_no = updateform.phne.value
+        userFormData.Email = updateform.email.value
+        userFormData.date_of_birth = updateform.dob.value
+        userFormData.address = updateform.address.value
 
 
         console.log('userFormData ka  data  :', userFormData)
@@ -188,6 +184,7 @@ body {
             method:'PUT',
             headers:{
                 'Content-Type':'applicaiton/json',
+
                 'X-CSRFToken':csrftoken,
                 'Authorization': 'Token '+ auth_token
 
@@ -206,11 +203,113 @@ body {
 
 
             }
-
-
-
         })
+        ImageUpload()
+
     }
+    function ImageUpload(){
+            let input = document.getElementById('profile_pic');
+            let DAta = new FormData();
+            DAta.append('Profile_pic', input.files[0]);
+            DAta.append('id', {{user.profile.id}});
+            var auth_token = localStorage.getItem('Auth_Token')
+            fetch('http://127.0.0.1:8000/api/Imageupload', {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': 'Token '+ auth_token
+                },
+                body: DAta
+            }).then(response => {
+                return response.json();
+            })
+            .then((data) => {
+                if (data.status){
+                   console.log(data)
+                   window.location.href = "/api/profile/view/"
+
+                }
+                else{
+                  console.log(data)
+
+                  window.location.href = "/api/profile/view/{{user.profile.id}}"
+                }
+            })
+    }
+
+ <!-- For image upload ------------------->
+
+<!--let input = document.getElementById('profile_pic');-->
+
+<!--        let DAta = new FormData();-->
+<!--        DAta.append('Profile_pic', input.files[0]);-->
+<!--        DAta.append('id', {{user.profile.id}});-->
+<!--        var auth_token = localStorage.getItem('Auth_Token')-->
+<!--        fetch('http://127.0.0.1:8000/api/Imageupload', {-->
+<!--            method: 'PUT',-->
+<!--            headers: {-->
+<!--                'Authorization': 'Token '+ auth_token-->
+<!--            },-->
+<!--            body: DAta-->
+<!--        }).then(response => {-->
+<!--            return response.json();-->
+<!--        }).then(data => {-->
+<!--            console.log(data);-->
+<!--        }).catch((error) => {-->
+<!--            console.error('Error:', error);-->
+<!--        });-->
+
+
+
+
+<!--- API FOR PRODUCT UPLOAD WHERE IMAGE IS NECESSARY OR REQUIRED ---------------->
+
+
+  // Product  Update  API call
+
+<!--    var updateform = document.getElementById('updateProfileform')-->
+<!--    updateform.addEventListener('submit', function(e){-->
+<!--        e.preventDefault()-->
+<!--        console.log('Clicked on save Changes ...')-->
+<!--        updateProfile()-->
+<!--    //    document.getElementById('form-button').classList.add("hidden");-->
+
+<!--    })-->
+
+
+<!--    function updateProfile(){-->
+
+<!--        let input = document.getElementById('profile_pic');-->
+
+<!--        let DAta = new FormData();-->
+
+<!--        DAta.append('Profile_pic', input.files[0]);-->
+<!--        DAta.append('id', {{user.profile.id}});-->
+<!--        DAta.append('Fullname', updateform.full_name.value);-->
+<!--        DAta.append('Email', updateform.email.value);-->
+<!--        DAta.append('date_of_birth', updateform.dob.value);-->
+<!--        DAta.append('phone_no', updateform.phne.value);-->
+<!--        DAta.append('address', updateform.address.value);-->
+
+<!--        var auth_token = localStorage.getItem('Auth_Token')-->
+<!--        fetch('http://127.0.0.1:8000/api/Imageupload', {-->
+<!--            method: 'PATCH',-->
+<!--            headers: {-->
+<!--                'Authorization': 'Token '+ auth_token-->
+<!--            },-->
+<!--            body: DAta-->
+<!--        }).then(response => {-->
+<!--            return response.json();-->
+<!--        }).then(data => {-->
+<!--            console.log(data);-->
+<!--        }).catch((error) => {-->
+<!--            console.error('Error:', error);-->
+<!--        });-->
+<!--    }-->
+
+
+
+
+<!---------- END OF PRODUCT API ---------------------------------------------->
 
 </script>
 
