@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django_rest_passwordreset',
     'knox',
     'accounts',
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -130,7 +131,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,'HomeRent/statics')
+    os.path.join(BASE_DIR,'HomeRent/static')
     ]
 STATIC_ROOT=os.path.join(BASE_DIR,'clone_static')
 MEDIA_URL= '/media/'
@@ -152,7 +153,8 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
 
-    'DEFAULT_AUTHENTICATION_CLASSES' : ('knox.auth.TokenAuthentication',)
+    'DEFAULT_AUTHENTICATION_CLASSES' : ('knox.auth.TokenAuthentication',),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
 from datetime import timedelta
