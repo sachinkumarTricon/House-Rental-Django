@@ -7,10 +7,19 @@ from django.contrib.auth import login,logout
 from .serializers import ChangePasswordSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser,FormParser
+
 # Create your views here.
+
+from twilio.rest import Client
+from decouple import config
+
+
+
 from .serializers import CreateUserSerializer ,LoginSerializer,EditProfileSerializer,UserAvatarSerializer
+
 import json
 import requests
+
 from . models import User,OTP,Profile
 from rent.models import room
 import random
@@ -28,6 +37,33 @@ class SendOTPphone(APIView):
    }
 
     """
+
+    def send_otp(self, phone,otp):
+        print("8"*70)
+        print("Ye Send OTP TO PHONE NUMBER CALL HUA HAI ")
+
+        Account_sid = config('Account_sid')
+        print(Account_sid,"SID no")
+        auth_token = config('auth_token')
+        print(auth_token,"auth TOken ")
+        client = Client(Account_sid, auth_token)
+        print(Client)
+        message = client.messages \
+            .create(
+            body="Your One Time Password is {} Please do not share your OTP with Any one ".format(otp),
+            to='+91{}'.format(phone),
+            from_=config('from'),
+        )
+        print(message)
+        print(message.sid)
+        print("8"*70)
+
+        return
+
+
+
+
+
     def post(self,request,*args,**kwargs):
         data = request.body
         dict_data = json.loads(data)
@@ -41,7 +77,7 @@ class SendOTPphone(APIView):
             if user.exists():
                 return Response({
                     'status': False,
-                    'detail':"Failed to enroll as phone number already taken "
+                    'Detail':"Failed to enroll as phone number already taken "
                 })
             else:
 
@@ -56,13 +92,14 @@ class SendOTPphone(APIView):
                        if count > 4:
                            return Response({
                                'status': False,
-                               'detail': 'OTP sending limit is crossed contact to customer care on 8340312640 '
+                               'Detail': 'OTP sending limit is crossed contact to customer care on 8340312640 '
 
                            })
                        else:
                            old.count = count+1
                            old.otp = key
                            old.save()
+                           self.send_otp(phone_number,key)
                            return Response({
                                "status": True,
                                "OTP": key,
@@ -75,6 +112,7 @@ class SendOTPphone(APIView):
                        otp = key,
                        count =1
                    )
+                   self.send_otp(phone_number, key)
                    return Response({
                        "status": True,
                        "OTP" : key,
@@ -85,7 +123,7 @@ class SendOTPphone(APIView):
                else:
                    return Response({
                        'status': False,
-                       'detail': 'Something Went Wrong please contact customer support'
+                       'Detail': 'Something Went Wrong please contact customer support'
 
                    })
 
@@ -93,7 +131,7 @@ class SendOTPphone(APIView):
         else:
             return Response({
                 'status': False,
-                'detail': 'Phone Number Not Given plz input valid phone number'
+                'Detail': 'Phone Number Not Given plz input valid phone number'
 
             })
 
@@ -245,7 +283,7 @@ class LoginAPI(LoginView):
             return Response({'status' : False})
 
 
-
+@method_decorator(login_required, name ="dispatch")
 class ChangePasswordView(generics.UpdateAPIView):
     """
     An endpoint for changing password.
@@ -285,7 +323,7 @@ class ChangePasswordView(generics.UpdateAPIView):
 
 
 
-
+@method_decorator(login_required, name ="dispatch")
 class EditProfile(APIView):
     permission_classes = (IsAuthenticated,)
     parser_classes = (MultiPartParser,FormParser)
@@ -318,18 +356,18 @@ def logoutview(request):
     logout(request)
     return redirect('/')
 
-
-def ProfileView(request,pk):
-    user = Profile.objects.filter(id = pk)
+@login_required()
+def ProfileView(request):
+    user = Profile.objects.filter(id = request.user.id)
     context = {'data': room.objects.all().filter(user=request.user.profile).order_by("-id"),
                'users': user
                }
     return render(request,'UserProfile.html',context)
 
 
-
-def UpdateProfileView(request,pk):
-    user = Profile.objects.filter(id = pk)
+@login_required()
+def UpdateProfileView(request):
+    user = Profile.objects.filter(id = request.user.id)
     date_of_birth = None
     for i in user:
        date_of_birth = i.date_of_birth.strftime("%Y-%m-%d")
@@ -337,11 +375,11 @@ def UpdateProfileView(request,pk):
 
 
 # FOR IMAGEFIELD UPLOAD CHECK
-
+@method_decorator(login_required, name ="dispatch")
 class UserAvatarUpload(APIView):
     parser_classes = [MultiPartParser, FormParser]
 
-    def put(self, request, format=None):
+    def patch(self, request, format=None):
         # print("Avtar se AAYA HAI ")
         user = Profile.objects.get(id = request.data.get('id'))
         serializer = UserAvatarSerializer( instance=user,data=request.data)
