@@ -105,7 +105,7 @@ a:hover {
 }
 
 .text-brand {
-  color: #000000;
+  color: #6597d4;
   font-size: 2rem;
   font-weight: 600;
 }
@@ -641,7 +641,7 @@ a:hover {
 
 .navbar-default.navbar-trans .nav-link, .navbar-default.navbar-reduce .nav-link {
   font-size: 1.1rem;
-  color: #000000;
+  color: #fffefe;
   font-weight: 600;
   letter-spacing: 0.030em;
   transition: all 0.1s ease-in-out;
@@ -705,7 +705,7 @@ a:hover {
 }
 
 .navbar-default.navbar-reduce .nav-link {
-  color: #000000;
+  color: #fffefe;
 }
 
 .navbar-default.navbar-reduce .nav-link:before {
