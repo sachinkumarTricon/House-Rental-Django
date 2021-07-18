@@ -406,7 +406,7 @@ class goToResetPass(APIView):
         data = json.loads(data)
         try:
 
-            user = User.objects.filter(email = data['email'])
+            user = User.objects.get(email = data['email'])
         except:
             return Response({
                 "status":False,
