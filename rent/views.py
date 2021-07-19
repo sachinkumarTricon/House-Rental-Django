@@ -18,6 +18,7 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     state = State.objects.all()
     if request.method == 'POST' :
+        print(request.user.profile.Premium)
         state_id = request.POST.get("state")
         state = State.objects.get(id=state_id)
         dist_id = request.POST.get("district")
@@ -30,18 +31,20 @@ def index(request):
         House_type = request.POST.get("House_type")
 
         SearchedObject = room.objects.filter(Q(state__icontains=state.name) and  Q(AllowedFor__icontains=AllowedFor)and Q(House_type__icontains=House_type)and Q(district__icontains= dist.name) and Q(city__icontains= city.name)and Q(location__icontains= location.name))
-        reco = room.objects.filter(city=city.name)
+        search = SearchedObject.filter(Active = True,Premium = True)
+        recomend = room.objects.filter(city=city.name)
+        recomend = recomend.filter(Active = True,Premium = True)
         if SearchedObject is None:
             messages.info(request, 'No Result Found As of Now')
             return redirect('/')
-        return render(request,'SearchResult.html',{'SearchResult':SearchedObject,'Reco':reco})
+        return render(request,'SearchResult.html',{'SearchResult':search,'Reco':recomend})
     state = State.objects.all()
     Restaurents = Reg_Mess_Restaurent.objects.all()
     for i in Restaurents:
         print(i.city,i.phone_no,i.Mess_name,i.Mess_img)
 
     gallery = Gallerys.objects.all()
-    Room = room.objects.all().filter(Q(Premium = True) and  Q(Active = True))
+    Room = room.objects.filter(Premium = True,Active = True)
     return render(request,'index11.html',{'RoomDetail':Room,'state':state,'gallery':gallery,'Resto':Restaurents})
 
 
@@ -84,12 +87,16 @@ def locations(request):
 
 @login_required(login_url='/rent/loginPage')
 def UploadHouseDetail(request):
-    state = State.objects.all()
-    context = {'state':state}
-    return render(request, 'FormUpload.html', context)
+    if request.user.profile.Premium:
 
+        state = State.objects.all()
+        context = {'state':state}
+        return render(request, 'FormUpload.html', context)
 
-@login_required()
+    else:
+        return redirect('/')
+
+@login_required(login_url='/rent/loginPage')
 def HouseDetail(request,pk):
     Room = room.objects.filter(id = pk)
     return render(request,'property-single.html',{'Detail':Room})
@@ -100,7 +107,7 @@ def Allmess(request):
     state = State.objects.all()
     return render(request,'All_mess.html',{'state':state})
 
-@login_required()
+@login_required(login_url='/rent/loginPage')
 def Single_view_mess(request,pk):
     MessDetail = Reg_Mess_Restaurent.objects.filter(id=pk)
 
@@ -165,7 +172,7 @@ def PropertyDetail(request):
 
 
 
-@login_required()
+@login_required(login_url='/rent/loginPage')
 def ValidationPage(request):
     if request.user.is_admin:
         val = Temporary.objects.all().order_by("-id")
@@ -174,7 +181,7 @@ def ValidationPage(request):
     else:
         return HttpResponse('<h1>Access - Denied </h1>')
 
-@login_required()
+@login_required(login_url='/rent/loginPage')
 def Validate(request,pk):
     if request.user.is_admin:
 
@@ -192,7 +199,7 @@ def Validate(request,pk):
         Temporary.objects.filter(id=pk).delete()
     return HttpResponse("<h1>Validated </h1>")
 
-@login_required()
+@login_required(login_url='/rent/loginPage')
 def ValidateMess(request,pk):
     if request.user.is_admin:
 
@@ -213,13 +220,13 @@ def ValidateMess(request,pk):
     return HttpResponse("<h1>Validated </h1>")
 
 
-@login_required()
+@login_required(login_url='/rent/loginPage')
 def deletePostValidation(request,pk):
     Temporary.objects.filter(id=pk).delete()
     return HttpResponse("<h> Deleted the Post </h1>")
 
 
-@login_required()
+@login_required(login_url='/rent/loginPage')
 def deleteMessPostValidation(request,pk):
     Temp_Reg_Mess_Restaurent.objects.filter(id=pk).delete()
     return HttpResponse("<h> Deleted the Post </h1>")
@@ -230,22 +237,6 @@ def deleteMessPostValidation(request,pk):
 def DeletePost(request,pk):
     room.objects.filter(id = pk).delete()
     return render(request,'index11.html')
-
-
-@login_required()
-def ActivatePost(request,pk):
-    post_up = room.objects.get(id = pk)
-    post_up.Active = True
-    post_up.save()
-
-
-@login_required()
-def DeactivatePost(request,pk):
-    obj = room.objects.get(id=pk)
-    if request.user.id == obj.user.id:
-        obj.Active = False
-        obj.save()
-
 
 
 
@@ -426,4 +417,5 @@ class PostDeactivation(APIView):
                 "status":False,
                 "msg": 'Your are not Authorized to update this'
             })
+
 
