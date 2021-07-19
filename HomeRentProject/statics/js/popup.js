@@ -283,6 +283,18 @@ function openReset_Pass_Modal(){
 
 
 // Change Password API Call
+function CheckLength(){
+ var NewPassword = document.getElementById('new_password').value
+
+ if (NewPassword.length  < 8){
+
+     return false;
+ }
+ else{
+     return true;
+ }
+}
+
 function OnPassChange(){
   var changePwdForm = document.getElementById('changePwdForm')
 
@@ -294,10 +306,16 @@ function OnPassChange(){
     cnfPass = changePwdForm.comfirm_password.value
 
     console.log(newpass,cnfPass,"Ye new or confirm password ha")
+
     if (newpass == cnfPass ){
 
-
-         ChngPass()
+         Bool = CheckLength()
+         if (Bool){
+             ChngPass()
+         }
+         else{
+         alert('Password should be of at least 8 character')
+         }
 
      }
      else{
@@ -408,4 +426,6 @@ function resetPass(){
 
     })
 }
+
+
 
